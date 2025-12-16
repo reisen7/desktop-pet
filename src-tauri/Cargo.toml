@@ -1,0 +1,23 @@
+[package]
+name = "desktop-pet"
+version = "1.0.0"
+edition = "2021"
+description = "给源小舞的桌面宠物 - Tauri 打包"
+authors = ["Your Name"]
+
+[features]
+# this feature is used for production builds or when `devPath` points to the filesystem
+# DO NOT REMOVE!!
+custom-protocol = ["tauri/custom-protocol"]
+
+[build-dependencies]
+tauri-build = { version = "1.5", features = [] }
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tauri = { version = "1.6", features = [
+    "dialog",
+    "shell-open",
+    "window-all"
+] }

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://raw.githubusercontent.com/tauri-apps/tauri/v1/schema.json",
+  "build": {
+    "beforeBuildCommand": "node build-tauri.js",
+    "beforeDevCommand": "",
+    "devPath": "../",
+    "distDir": "../dist_tauri",
+    "withGlobalTauri": true
+  },
+  "package": {
+    "productName": "源小舞的桌面宠物",
+    "version": "1.0.0"
+  },
+  "tauri": {
+    "allowlist": {
+      "all": false,
+      "window": {
+        "all": true
+      },
+      "shell": {
+        "open": true
+      }
+    },
+    "bundle": {
+      "active": true,
+      "identifier": "com.gift.desktop-pet",
+      "icon": [
+        "icons/icon.ico"
+      ],
+      "targets": [
+        "nsis"
+      ]
+    },
+    "security": {
+      "csp": null
+    },
+    "windows": [
+      {
+        "label": "pet",
+        "url": "pet.html",
+        "transparent": true,
+        "decorations": false,
+        "alwaysOnTop": true,
+        "skipTaskbar": true,
+        "width": 800,
+        "height": 200,
+        "center": true,
+        "resizable": false,
+        "visible": true
+      },
+      {
+        "label": "control",
+        "url": "control.html",
+        "title": "源小舞的桌宠控制面板",
+        "width": 420,
+        "height": 380,
+        "center": true,
+        "resizable": false,
+        "visible": true
+      }
+    ]
+  }
+}

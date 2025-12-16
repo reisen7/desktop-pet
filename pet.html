@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>给源小舞的桌面宠物</title>
+    <!-- 引入重构后的 CSS -->
+    <link rel="stylesheet" href="pet_v2.css">
+</head>
+<body>
+    <div class="pet-container">
+        <!-- 宠物角色 - 预设 mood-happy 类 -->
+        <div class="pet-character mood-happy" id="pet">
+            <!-- 对话气泡 -->
+            <div class="speech-bubble" id="speechBubble" style="display: none;">
+                <span id="speechText"></span>
+            </div>
+        </div>
+        
+        <!-- 好感度显示 (悬浮窗) -->
+        <div class="affection-display" id="affectionDisplay" style="display: none;">
+            <div class="affection-bar">
+                <div class="affection-fill" id="affectionFill"></div>
+            </div>
+            <div class="affection-info">
+                <span id="levelName">朋友</span>
+                <span id="affectionValue">50/100</span>
+            </div>
+        </div>
+        
+        <!-- Galgame 对话框 -->
+        <div class="galgame-dialog" id="galgameDialog" style="display: none;">
+            <div class="dialog-content">
+                <div class="character-name">主人的专属宠物</div>
+                <div class="dialog-text" id="dialogText"></div>
+                <div class="dialog-choices" id="dialogChoices"></div>
+            </div>
+        </div>
+        
+        <!-- 右键菜单 -->
+        <div class="context-menu" id="contextMenu" style="display: none;">
+            <div class="menu-item" onclick="changePetMood()">😊 切换心情</div>
+            <div class="menu-item" onclick="toggleMode()">🏃 切换模式</div>
+            <div class="menu-item" onclick="startDialog()">💬 对话</div>
+            <div class="menu-item" onclick="showStatus()">📊 查看状态</div>
+            <div class="menu-item" onclick="resetData()">🔃 重置数据</div>
+            <div class="menu-item" onclick="hidePet()">🙈 隐藏宠物</div>
+            <div class="menu-item" onclick="quitApp()">❌ 退出</div>
+        </div>
+    </div>
+
+    <!-- 引入重构后的 JS -->
+    <script src="pet_v3.js"></script>
+</body>
+</html>

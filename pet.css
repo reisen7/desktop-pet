@@ -1,0 +1,483 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: transparent;
+    overflow: hidden;
+    cursor: default;
+    user-select: none;
+    -webkit-app-region: no-drag;
+}
+
+.pet-container {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pet-character {
+    width: 120px;
+    height: 120px;
+    background-image: url('assets/happy-smile.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 60px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+    -webkit-app-region: drag;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+/* 奔跑模式样式 */
+.pet-character.running {
+    width: 60px;
+    height: 52px;
+    background-image: url('assets/miku-walk.jpg');
+    background-size: 480px 52px;
+    background-repeat: no-repeat;
+    border-radius: 0;
+    animation: walk-cycle 0.8s steps(8) infinite;
+}
+
+/* 静态角色模式 */
+.pet-character.static {
+    border-radius: 50%;
+    animation: none;
+}
+
+/* 不同心情图片的专门设置 - 根据实际像素调整 */
+.pet-character.mood-happy {
+    width: 120px;
+    height: 120px;
+    background-image: url('assets/happy-smile.jpg');
+    background-size: 240px 120px; /* 2帧水平排列 */
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    border-radius: 60px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    animation: happy-blink 1.5s steps(2) infinite;
+}
+
+.pet-character.mood-cute {
+    width: 100px;
+    height: 120px;
+    background-image: url('assets/cute-wink.jpg');
+    background-size: 400px 120px; /* 假设是4帧水平排列 */
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    border-radius: 50px;
+    animation: wink-cycle 2s steps(4) infinite;
+}
+
+.pet-character.mood-sleepy {
+    width: 120px;
+    height: 100px;
+    background-image: url('assets/sleepy-tired.jpg');
+    background-size: 360px 100px; /* 假设是3帧 */
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    border-radius: 50px;
+    animation: sleepy-cycle 2s steps(3) infinite;
+}
+
+.pet-character.mood-shy {
+    width: 100px;
+    height: 100px;
+    background-image: url('assets/shy-blush.jpg');
+    background-size: 200px 100px; /* 假设是2帧 */
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    border-radius: 50%;
+    animation: shy-cycle 1.8s steps(2) infinite;
+}
+
+.pet-character:hover {
+    transform: scale(1.1);
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.4));
+}
+
+.pet-character:active {
+    transform: scale(0.95);
+}
+
+/* 动画效果 */
+.pet-character.bounce {
+    animation: bounce 0.6s ease-in-out;
+}
+
+.pet-character.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+.pet-character.spin {
+    animation: spin 1s ease-in-out;
+}
+
+.pet-character.float {
+    animation: float 3s ease-in-out infinite;
+}
+
+.pet-character.jump {
+    animation: jump 0.8s ease-in-out;
+}
+
+.pet-character.wiggle {
+    animation: wiggle 1s ease-in-out;
+}
+
+.pet-character.pulse {
+    animation: pulse 1.5s ease-in-out;
+}
+
+@keyframes bounce {
+    0%, 20%, 60%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-20px);
+    }
+    80% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+/* 对话气泡 */
+.speech-bubble {
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    color: #2c3e50;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    border: 1px solid #39C5BB;
+    z-index: 1000;
+    opacity: 0;
+    animation: fadeInOut 3s ease-in-out;
+    max-width: 150px;
+    word-wrap: break-word;
+    white-space: normal;
+    text-align: center;
+    font-family: 'Microsoft YaHei', sans-serif;
+    transition: all 0.3s ease;
+}
+
+/* 奔跑模式下的气泡位置调整 */
+.pet-character.running .speech-bubble {
+    top: -45px;
+    font-size: 11px;
+    padding: 4px 8px;
+}
+
+.speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid white;
+}
+
+.speech-bubble::before {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #39C5BB;
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+    20%, 80% { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* 右键菜单 */
+.context-menu {
+    position: fixed;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 2000;
+    min-width: 120px;
+    overflow: hidden;
+}
+
+.menu-item {
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    transition: background-color 0.2s;
+}
+
+.menu-item:hover {
+    background-color: #f5f5f5;
+}
+
+.menu-item:active {
+    background-color: #e0e0e0;
+}
+
+/* 移动动画 */
+.pet-character.moving {
+    animation: walk 2s linear infinite;
+}
+
+/* 奔跑动画关键帧 */
+@keyframes walk-cycle {
+    from { background-position-x: 0; }
+    to { background-position-x: -656px; }
+}
+
+/* 眨眼动画关键帧 */
+@keyframes wink-cycle {
+    from { background-position-x: 0; }
+    to { background-position-x: -400px; }
+}
+
+/* 开心眨眼动画 */
+@keyframes happy-blink {
+    from { background-position-x: 0; }
+    to { background-position-x: -240px; }
+}
+
+/* 困倦动画 */
+@keyframes sleepy-cycle {
+    from { background-position-x: 0; }
+    to { background-position-x: -360px; }
+}
+
+/* 害羞动画 */
+@keyframes shy-cycle {
+    from { background-position-x: 0; }
+    to { background-position-x: -200px; }
+}
+
+@keyframes walk {
+    0%, 100% { transform: translateX(0) scaleX(1); }
+    25% { transform: translateX(2px) scaleX(1.02); }
+    50% { transform: translateX(0) scaleX(1); }
+    75% { transform: translateX(-2px) scaleX(0.98); }
+}
+
+@keyframes jump {
+    0%, 100% { transform: translateY(0) scaleY(1); }
+    30% { transform: translateY(-30px) scaleY(1.1); }
+    60% { transform: translateY(-15px) scaleY(0.9); }
+}
+
+@keyframes wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-5deg); }
+    75% { transform: rotate(5deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+/* Galgame系统样式 */
+.affection-display {
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 15px;
+    font-size: 10px;
+    z-index: 1500;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    min-width: 90px;
+}
+
+.affection-bar {
+    width: 100px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    margin-bottom: 5px;
+    overflow: hidden;
+}
+
+.affection-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff6b9d, #ff8e8e, #ffa8a8);
+    border-radius: 3px;
+    transition: width 0.5s ease;
+    width: 50%;
+}
+
+.affection-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+}
+
+/* Galgame对话框 */
+.galgame-dialog {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 40, 0.95));
+    color: white;
+    z-index: 2000;
+    backdrop-filter: blur(15px);
+    border-top: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.dialog-content {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.character-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #ff8e8e;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(255, 142, 142, 0.5);
+}
+
+.dialog-text {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    min-height: 40px;
+    animation: typewriter 0.5s ease-in;
+}
+
+.dialog-choices {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.choice-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 12px;
+    text-align: left;
+}
+
+.choice-button:hover {
+    background: rgba(255, 142, 142, 0.3);
+    border-color: #ff8e8e;
+    transform: translateX(5px);
+}
+
+.dialog-continue {
+    text-align: center;
+    font-size: 12px;
+    opacity: 0.7;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.dialog-continue:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+@keyframes typewriter {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 好感度等级颜色 */
+.level-1 .affection-fill { background: linear-gradient(90deg, #666, #888); }
+.level-2 .affection-fill { background: linear-gradient(90deg, #4a90e2, #7bb3f0); }
+.level-3 .affection-fill { background: linear-gradient(90deg, #50c878, #7dd87d); }
+.level-4 .affection-fill { background: linear-gradient(90deg, #ff6b9d, #ff8e8e); }
+.level-5 .affection-fill { background: linear-gradient(90deg, #ff1744, #ff5722); }
+
+/* 成就通知 */
+.achievement-notification {
+    position: fixed;
+    top: 50px;
+    right: 20px;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.95), rgba(255, 140, 0, 0.95));
+    color: white;
+    padding: 15px 20px;
+    border-radius: 15px;
+    z-index: 3000;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    animation: achievementSlide 0.5s ease-out;
+    max-width: 250px;
+}
+
+.achievement-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.achievement-desc {
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+@keyframes achievementSlide {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

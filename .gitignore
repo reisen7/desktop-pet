@@ -1,0 +1,15 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# Build output
+dist_tauri/
+
+# Rust / Tauri
+src-tauri/target/
+
+# OS
+.DS_Store
+Thumbs.db

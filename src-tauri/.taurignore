@@ -1,0 +1,10 @@
+node_modules
+src-tauri
+.git
+.target
+.vscode
+.DS_Store
+dist
+*.log
+package-lock.json
+start.bat

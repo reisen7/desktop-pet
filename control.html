@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>源小舞的桌宠控制面板</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 360px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        h1 {
+            margin-bottom: 30px;
+            font-size: 24px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .control-group {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .control-group h3 {
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: #f0f0f0;
+        }
+        
+        .button {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            display: inline-block;
+        }
+        
+        .button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .button:active {
+            transform: translateY(0);
+        }
+        
+        .status {
+            background: rgba(57, 197, 187, 0.2);
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💝 源小舞的专属桌面宠物</h1>
+        
+        <div class="control-group">
+            <h3>宠物控制</h3>
+            <button class="button" onclick="showPet()">显示宠物</button>
+            <button class="button" onclick="hidePet()">隐藏宠物</button>
+            <button class="button" onclick="callPet()">召唤宠物</button>
+        </div>
+        
+        <div class="control-group">
+            <h3>应用设置</h3>
+            <button class="button" onclick="openDevTools()">开发者工具</button>
+            <button class="button" onclick="quitApp()">退出应用</button>
+        </div>
+        
+        <div class="status">
+            <div>状态: <span id="status">运行中</span></div>
+            <div>版本: v1.0.0</div>
+        </div>
+        
+        <div class="footer">
+            <p>💝 专属于源小舞的可爱桌面宠物，永远陪伴你每一天</p>
+        </div>
+    </div>
+
+    <script>
+        // Tauri Polyfills
+        const invoke = window.__TAURI__?.core?.invoke || window.__TAURI__?.tauri?.invoke;
+        const emit = window.__TAURI__?.event?.emit;
+
+        function showPet() {
+            if (emit) emit('pet-show');
+            updateStatus('宠物已显示');
+        }
+        
+        function hidePet() {
+            if (emit) emit('pet-hide');
+            updateStatus('宠物已隐藏');
+        }
+        
+        function callPet() {
+            if (emit) emit('pet-move-center');
+            updateStatus('宠物已召唤到中央');
+        }
+        
+        function openDevTools() {
+            // Tauri doesn't easily support opening devtools for another window from here without Rust
+            alert('请在启动时添加 --dev 参数或使用右键菜单');
+        }
+        
+        function quitApp() {
+            if (confirm('确定要退出桌面宠物吗？')) {
+                if (invoke) invoke('quit_app');
+            }
+        }
+        
+        function updateStatus(message) {
+            const statusElement = document.getElementById('status');
+            statusElement.textContent = message;
+            setTimeout(() => {
+                statusElement.textContent = '运行中';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
